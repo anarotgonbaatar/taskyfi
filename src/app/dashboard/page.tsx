@@ -1,18 +1,42 @@
 "use client"
 
-import { useSession } from "next-auth/react"
-import { useRouter } from "next/navigation"
-import { useEffect } from "react"
+import { useState, useEffect } from "react"
+import List from "./List"
+import { ListType } from "@/types"
+import "./dashboard.css"
 
 export default function DashboardPage() {
-	const { data: session, status } = useSession()
-	const router = useRouter()
+	const [ lists, setLists ] = useState <ListType[]> ([])
 
+	// Get lists from API
 	useEffect(() => {
+		async function fetchLists() {
+			const res = await fetch( "/api/lists" )
+			const data = await res.json()
+			setLists( data )
+		}
+		fetchLists()
+	}, [])
 
-	})
+	// Add new list
+	const addList = async () => {
+		const res = await fetch( "/api/lists", {
+			method: "POST",
+			body: JSON.stringify({ name: "New List" }),
+			headers: { "Content-Type": "application/json" },
+		})
+		const newList = await res.json()
+		setLists([ ...lists, newList ])
+	}
 
 	return (
-		<div>Welcome, { session?.user?.fName }</div>
+		<div className="flex gap-4 overflow-x-auto p-4 h-full">
+			{ lists.map( ( list ) => (
+				<List key={ list._id } list={ list } setLists={ setLists }/>
+			))}
+			<button onClick={ addList } type="button">
+				+ List
+			</button>
+		</div>
 	)
 }

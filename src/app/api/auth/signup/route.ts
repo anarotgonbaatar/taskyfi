@@ -3,6 +3,8 @@
 import { NextResponse } from "next/server"
 import { connectToDB } from "@/app/utils/db"
 import User from "@/app/models/User"
+import List from "@/app/models/List"
+import Task from "@/app/models/Task"
 import bcrypt from "bcrypt"
 
 export async function POST( req: Request ) {
@@ -21,6 +23,19 @@ export async function POST( req: Request ) {
 	// Create new user account
 	const user = new User({ fName, lName, email, password: hashedPassword })
 	await user.save()
+
+	// Create an initial list and task for new user
+	const initialList = new List({
+		name: "My Tasks",
+		userId: user._id,
+	})
+	await initialList.save()
+
+	const initialTask = new Task({
+		name: "My first task",
+		listId: initialList._id,
+	})
+	await initialTask.save()
 
 	return NextResponse.json({ message: "User account created successfully." }, { status: 201 })
 }

@@ -1,0 +1,15 @@
+.list {
+	border: 1px solid var(--glass);
+	min-width: 20rem;
+	min-height: 20rem;
+
+	display: flex;
+	flex-direction: column;
+	padding: 0.5rem;
+	gap: 1rem;
+}
+
+.list-header {
+	border-bottom: 1px solid var(--glass);
+	padding-bottom: 0.5rem;
+}
