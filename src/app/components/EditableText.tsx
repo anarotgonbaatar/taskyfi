@@ -13,10 +13,17 @@ export default function EditableText({ text, onSave }: EditableTextProps ) {
 	const [ value, setValue ] = useState( text )
 
 	const handleSave = () => {
-		if ( value !== text ) {
+		if ( value.trim() !== "" && value !== text ) {
 			onSave( value )
 		}
 		setIsEditing( false )
+	}
+
+	// Also save when pressed "Enter" key
+	const handleKeyDown = ( e: React.KeyboardEvent <HTMLInputElement> ) => {
+		if ( e.key === "Enter" ) {
+			handleSave()
+		}
 	}
 
 	return isEditing ? (
@@ -25,6 +32,7 @@ export default function EditableText({ text, onSave }: EditableTextProps ) {
 			value={ value }
 			onChange={(e) => setValue( e.target.value )}
 			onBlur={ handleSave }
+			onKeyDown={ handleKeyDown }
 			autoFocus
 			type="text"
 			placeholder="Edit text"

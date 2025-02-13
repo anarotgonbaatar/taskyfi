@@ -13,3 +13,7 @@
 	border-bottom: 1px solid var(--glass);
 	padding-bottom: 0.5rem;
 }
+
+.add-task-btn {
+	text-wrap: nowrap;
+}

@@ -40,8 +40,8 @@ button:hover {
 input {
 	padding: 0.5rem 0.75rem;
 	background: transparent;
-	border: 1px solid var(--glass);
 	outline: none;
+	margin: none;
 }
 
 .auth-box {
@@ -56,6 +56,13 @@ input {
 	display: flex;
 	flex-direction: column;
 	gap: 1rem;
+}
+
+.auth-input {
+	border: 1px solid var(--glass);
+}
+.auth-input:hover {
+	background-color: var(--glass);
 }
 
 .err-message {

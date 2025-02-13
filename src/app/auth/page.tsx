@@ -96,6 +96,7 @@ export default function AuthPage() {
 				{ tab === "signin" ? (
 					<div className="inputs-box">
 						<input
+							className="auth-input"
 							type="email"
 							name="email"
 							placeholder="Email"
@@ -103,6 +104,7 @@ export default function AuthPage() {
 							onChange={ handleInputChange }
 						/>
 						<input
+							className="auth-input"
 							type="password"
 							name="password"
 							placeholder="Password"
@@ -115,6 +117,7 @@ export default function AuthPage() {
 				) : (
 					<div className="inputs-box">
 						<input
+							className="auth-input"
 							type="text"
 							name="fName"
 							placeholder="Anar"
@@ -122,6 +125,7 @@ export default function AuthPage() {
 							onChange={ handleInputChange }
 						/>
 						<input
+							className="auth-input"
 							type="text"
 							name="lName"
 							placeholder="Otgonbaatar"
@@ -129,6 +133,7 @@ export default function AuthPage() {
 							onChange={ handleInputChange }
 						/>
 						<input
+							className="auth-input"
 							type="email"
 							name="email"
 							placeholder="Email"
@@ -136,6 +141,7 @@ export default function AuthPage() {
 							onChange={ handleInputChange }
 						/>
 						<input
+							className="auth-input"
 							type="password"
 							name="password"
 							placeholder="Password"
@@ -143,6 +149,7 @@ export default function AuthPage() {
 							onChange={ handleInputChange }
 						/>
 						<input
+							className="auth-input"
 							type="password"
 							name="confirmPassword"
 							placeholder="Confirm Password"

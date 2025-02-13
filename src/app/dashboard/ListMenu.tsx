@@ -1,4 +1,5 @@
 import { ListMenuProps } from "@/types"
+import "./list.css"
 
 export default function ListMenu({ list, setLists }: ListMenuProps ) {
 	const deleteList = async () => {
@@ -7,7 +8,7 @@ export default function ListMenu({ list, setLists }: ListMenuProps ) {
 	}
 
 	return (
-		<div>
+		<div className="flex flex-col">
 			<button className="" type="button">Duplicate</button>
 			<button className="" type="button">Change Color</button>
 			<button onClick={ deleteList } className="" type="button">Delete</button>

@@ -1,11 +1,11 @@
 .name {
 	display: flex;
 	align-items: center;
-	margin-right: auto;
 	padding: 0 0.75rem;
 }
 
 .editing {
 	background-color: var(--glass);
-	border: none;
+	padding: 0 0.75rem;
+	max-width: 11rem;
 }

@@ -17,32 +17,44 @@ export default function List({ list, setLists }: ListProps ) {
 		})
 
 		const newTask: TaskType = await res.json()
+
+		// Update both tasks and the lists
 		setTasks([ ...tasks, newTask ])
+		setLists(( prev ) =>
+			prev.map((l) => (l._id === list._id ? { ...list, tasks: [ ...list.tasks, newTask ]} : l ))
+		)
 	}
 
 	const updateListName = async ( newName: string ) => {
-		await fetch( `/api/lists/${list._id}`, {
+		// Check if the new name is valid
+		if ( newName.trim() === "" || newName === list.name ) return
+		
+		const res = await fetch( `/api/lists/${list._id}`, {
 			method: "PUT",
 			body: JSON.stringify({ name: newName }),
 			headers: { "Content-Type": "application/json" }
 		})
 
-		setLists(( prev ) =>
-			prev.map((l) => ( l._id === list._id ? { ...l, name: newName } : l ))
-		)
+		if ( res.ok ) {
+			setLists(( prev ) =>
+				prev.map((l) => ( l._id === list._id ? { ...l, name: newName } : l ))
+			)
+		}
 	}
 
 	return (
 		<div className="list">
-			<div className="list-header flex">
+			<div className="list-header flex justify-between gap-2">
 				<EditableText
 					text={ list.name }
 					onSave={ updateListName }
 				/>
-				<button onClick={() => setShowMenu( !showMenu )} type="button">
-					:
-				</button>
-				<button onClick={ addTask } type="button">+ Task</button>
+				<div className="flex gap-2">
+					<button className="add-task-btn" onClick={ addTask } type="button">+ Task</button>
+					<button className="list-menu-btn w-8" onClick={() => setShowMenu( !showMenu )} type="button">
+						:
+					</button>
+				</div>
 			</div>
 
 			<div className="tasks-box">

@@ -17,7 +17,7 @@ export default function RootLayout({
 return (
 	<SessionProvider session={ session }>
 		<html lang="en">
-		<body className="text-white">
+		<body className="text-white h-screen">
 			<header className="text-xl font-semibold p-4">TASKYFI</header>
 			<main className="p-4">{ children }</main>
 		</body>

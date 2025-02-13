@@ -30,7 +30,7 @@ export default function DashboardPage() {
 	}
 
 	return (
-		<div className="flex gap-4 overflow-x-auto p-4 h-full">
+		<div className="flex gap-4 overflow-x-auto h">
 			{ lists.map( ( list ) => (
 				<List key={ list._id } list={ list } setLists={ setLists }/>
 			))}
