@@ -1,27 +1,40 @@
-import { useState } from "react"
+"use client"
+
+import { useState, useEffect } from "react"
 import Task from "./Task"
 import ListMenu from "./ListMenu"
 import EditableText from "../components/EditableText"
-import { ListProps, TaskType } from "@/types"
+import { ListProps, TaskType } from "../types"
 import "./list.css"
+import { FaEllipsisV } from "react-icons/fa"
 
 export default function List({ list, setLists }: ListProps ) {
-	const [ tasks, setTasks ] = useState <TaskType[]> ( list.tasks )
+	const [ tasks, setTasks ] = useState <TaskType[]>( list.tasks || [] )
 	const [ showMenu, setShowMenu ] = useState( false )
 
+	useEffect(() => {
+		const fetchTasks = async () => {
+			const res = await fetch( `/api/lists/${list._id}/tasks`)
+			const data = await res.json()
+			setTasks( data )
+		}
+		fetchTasks()
+	}, [ list._id ])
+
 	const addTask = async () => {
+		if ( !list._id ) return
 		const res = await fetch( `/api/lists/${list._id}/tasks`, {
 			method: "POST",
-			body: JSON.stringify({ name: "New Task "}),
+			body: JSON.stringify({ name: "New Task" }),
 			headers: { "Content-Type": "application/json" },
 		})
 
 		const newTask: TaskType = await res.json()
 
 		// Update both tasks and the lists
-		setTasks([ ...tasks, newTask ])
+		setTasks([ newTask, ...tasks ])
 		setLists(( prev ) =>
-			prev.map((l) => (l._id === list._id ? { ...list, tasks: [ ...list.tasks, newTask ]} : l ))
+			prev.map( (l) => ( l._id === list._id ? { ...list, tasks: [ newTask, ...list.tasks ]} : l ))
 		)
 	}
 
@@ -51,19 +64,20 @@ export default function List({ list, setLists }: ListProps ) {
 				/>
 				<div className="flex gap-2">
 					<button className="add-task-btn" onClick={ addTask } type="button">+ Task</button>
-					<button className="list-menu-btn w-8" onClick={() => setShowMenu( !showMenu )} type="button">
-						:
+					<button className="list-menu-btn w-8" onClick={() => setShowMenu( !showMenu )} type="button" aria-label="List Menu">
+						<FaEllipsisV/>
 					</button>
 				</div>
 			</div>
+			
+			{ showMenu && <ListMenu list={ list } setLists={ setLists }/> }
 
-			<div className="tasks-box">
+			<div className="tasks-box flex flex-col gap-2">
 				{ tasks.map(( task ) => (
-					<Task key={ task._id } task={ task }/>
+					<Task key={ task._id } task={ task } setTasks={ setTasks }/>
 				))}
 			</div>
 
-			{ showMenu && <ListMenu list={ list } setLists={ setLists }/> }
 		</div>
 	)
 }

@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import "./editable-text.css"
 
 interface EditableTextProps {
@@ -11,6 +11,10 @@ interface EditableTextProps {
 export default function EditableText({ text, onSave }: EditableTextProps ) {
 	const [ isEditing, setIsEditing ] = useState( false )
 	const [ value, setValue ] = useState( text )
+
+	useEffect(() => {
+		setValue( text )
+	}, [ text ])
 
 	const handleSave = () => {
 		if ( value.trim() !== "" && value !== text ) {

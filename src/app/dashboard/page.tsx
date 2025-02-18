@@ -2,22 +2,24 @@
 
 import { useState, useEffect } from "react"
 import List from "./List"
-import { ListType } from "@/types"
+import { ListType } from "../types"
 import "./dashboard.css"
 
 export default function DashboardPage() {
-	const [ lists, setLists ] = useState <ListType[]> ([])
+	const [ lists, setLists ] = useState <ListType[]>( [] )
+	const [ loading, setLoading ] = useState( true )
 
 	// Get lists from API
 	useEffect(() => {
 		async function fetchLists() {
-			const res = await fetch( "/api/lists" )
+			const res = await fetch( "/api/lists", { cache: "no-store" } )
 			const data = await res.json()
 			setLists( data )
+			setLoading( false )
 		}
 		fetchLists()
 	}, [])
-
+	
 	// Add new list
 	const addList = async () => {
 		const res = await fetch( "/api/lists", {
@@ -26,14 +28,19 @@ export default function DashboardPage() {
 			headers: { "Content-Type": "application/json" },
 		})
 		const newList = await res.json()
-		setLists([ ...lists, newList ])
+		setLists( ( prev ) => ( prev ? [ ...prev, newList ] : [ newList ]) )
 	}
 
 	return (
 		<div className="flex gap-4 overflow-x-auto h">
-			{ lists.map( ( list ) => (
-				<List key={ list._id } list={ list } setLists={ setLists }/>
-			))}
+			{ loading ? (
+				<p>Loading...</p>
+			):(
+				lists?.map( ( list ) => (
+					<List key={ list._id } list={ list } setLists={ setLists }/>
+				))
+			)}
+
 			<button onClick={ addList } type="button">
 				+ List
 			</button>

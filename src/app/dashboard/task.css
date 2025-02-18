@@ -1,0 +1,66 @@
+.task {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+	width: 100%;
+	padding: 0.5rem 0.5rem 0;
+}
+.task:hover {
+	background-color: var(--glass);
+}
+
+.checkbox {
+	appearance: none;
+	width: 2rem;
+	height: 2rem;
+	border: 3px solid var(--glass);
+	cursor: pointer;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.checkbox:hover {
+	background-color: var(--glass);
+}
+.checkbox:checked {
+	background-color: var(--primary);
+}
+.checkbox:checked::after {
+	content: "✔";
+	color: white;
+	font-size: 1.25rem;
+}
+
+.task-btn {
+	width: 2rem;
+	height: 2rem;
+	padding: 0.25rem;
+	cursor: pointer;
+	color: var(--glass);
+	background-color: transparent;
+	border: none;
+	transition: color 0s ease !important;
+}
+.task-btn:hover {
+	color: white;
+}
+
+.priority-drop {
+	appearance: none;
+	width: 5.2rem;
+	padding: 0 0.75rem;
+	border: 1px solid var(--glass);
+	background-color: transparent;
+	cursor: pointer;
+	outline: none;
+}
+.priority-drop:hover {
+	border-color: white;
+}
+.priority-drop:focus {
+	border-color: white;
+}
+.priority-drop option {
+	color: var(--text);
+	background: var(--bg);
+}

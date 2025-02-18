@@ -3,9 +3,14 @@ import { NextResponse } from "next/server"
 import { connectToDB } from "@/app/utils/db"
 import List from "@/app/models/List"
 
-export async function DELETE( req: Request, { params }: { params: { id: string } } ) {
+export async function DELETE( req: Request, context: { params: { id: string } } ) {
 	await connectToDB()
-	const { id } = params
+
+	const { id } = await context.params
+
+	if ( !id ) {
+		return NextResponse.json({ message: "Error: List ID invalid." }, { status: 400 })
+	}
 
 	// Delete the list
 	const deletedList = await List.findByIdAndDelete( id )
@@ -17,9 +22,15 @@ export async function DELETE( req: Request, { params }: { params: { id: string }
 	return NextResponse.json({ message: "List deleted successfully." }, { status: 200 })
 }
 
-export async function PUT( req: Request, { params }: { params: { id: string } } ) {
+export async function PUT( req: Request, context: { params: { id: string } } ) {
 	await connectToDB()
-	const { id } = params
+
+	const { id } = await context.params
+
+	if ( !id ) {
+		return NextResponse.json({ message: "Error: List ID invalid." }, { status: 400 })
+	}
+	
 	const { name } = await req.json()
 
 	// Find and update the list name
