@@ -1,9 +1,9 @@
 .task {
 	display: flex;
 	flex-direction: column;
-	gap: 0.5rem;
 	width: 100%;
-	padding: 0.5rem 0.5rem 0;
+	padding: 0.25rem;
+	border: 3px solid transparent;
 }
 .task:hover {
 	background-color: var(--glass);
@@ -13,7 +13,7 @@
 	appearance: none;
 	width: 2rem;
 	height: 2rem;
-	border: 3px solid var(--glass);
+	border: 2px solid var(--glass);
 	cursor: pointer;
 	display: flex;
 	justify-content: center;
@@ -31,9 +31,13 @@
 	font-size: 1.25rem;
 }
 
+.task-btns-box {
+	display: flex;
+	align-items: center;
+}
 .task-btn {
-	width: 2rem;
-	height: 2rem;
+	width: 1.75rem;
+	height: 1.75rem;
 	padding: 0.25rem;
 	cursor: pointer;
 	color: var(--glass);
@@ -43,6 +47,13 @@
 }
 .task-btn:hover {
 	color: white;
+}
+
+.delete-btn {
+	color: var(--error);
+}
+.delete-btn:hover {
+	color: red;
 }
 
 .priority-drop {
@@ -63,4 +74,27 @@
 .priority-drop option {
 	color: var(--text);
 	background: var(--bg);
+}
+
+/* Task priority colors */
+.task.priority-none {
+	background-color: transparent;
+}
+
+.task.priority-low {
+	background-color: #002200;
+	border-color: green;
+	/* box-shadow: 0 0 0.5rem green; */
+}
+
+.task.priority-medium {
+	background-color: #292000;
+	border-color: orange;
+	/* box-shadow: 0 0 0.5rem orange; */
+}
+
+.task.priority-high {
+	background-color: #220000;
+	border-color: red;
+	/* box-shadow: 0 0 0.5rem red; */
 }

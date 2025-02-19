@@ -3,25 +3,19 @@
 "use client"
 
 import { SessionProvider } from "next-auth/react"
-import type { Session } from "next-auth"
-import "./globals.css";
+import Header from "./components/Header"
+import "./globals.css"
 
-export default function RootLayout({
-	children,
-	session,
-}: {
-	children: React.ReactNode
-	session?: Session | null
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
 
-return (
-	<SessionProvider session={ session }>
-		<html lang="en">
-		<body className="text-white h-screen">
-			<header className="text-xl font-semibold p-4">TASKYFI</header>
-			<main className="p-4">{ children }</main>
-		</body>
-		</html>
-	</SessionProvider>
-);
+	return (
+		<SessionProvider>
+			<html lang="en">
+			<body className="text-white h-screen">
+				<Header/>
+				<main className="p-2 mt-2">{ children }</main>
+			</body>
+			</html>
+		</SessionProvider>
+	)
 }

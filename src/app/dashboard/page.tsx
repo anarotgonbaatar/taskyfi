@@ -34,7 +34,7 @@ export default function DashboardPage() {
 	return (
 		<div className="flex gap-4 overflow-x-auto h">
 			{ loading ? (
-				<p>Loading...</p>
+				<p>Loading Tasks...</p>
 			):(
 				lists?.map( ( list ) => (
 					<List key={ list._id } list={ list } setLists={ setLists }/>

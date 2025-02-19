@@ -6,6 +6,7 @@ export interface IUser extends Document {
 	lName: string
 	email: string
 	password: string	// password will be hashed
+	profilePic?: string
 	createdTime: Date
 	updatedTime: Date
 }
@@ -16,6 +17,7 @@ const UserSchema: Schema< IUser > = new Schema(
 		lName: { type: String, required: true },
 		email: { type: String, required: true, unique: true },
 		password: { type: String, required: true },
+		profilePic: { type: String, default: "" },
 	},
 	{ timestamps: true }	// auto add created and updated time fields
 )

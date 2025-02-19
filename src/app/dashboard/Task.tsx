@@ -8,27 +8,35 @@ import { FaTrash, FaEllipsisV, FaCalendar, FaCopy } from "react-icons/fa"
 import { FaArrowRightArrowLeft, FaTurnDown } from "react-icons/fa6"
 
 export default function Task({ task, setTasks }: TaskProps ) {
-	const [ isCompleted, setIsCompleted ] = useState( task.completed )
+	const [ isCompleted, setIsCompleted ] = useState( task.completed ?? false )
 	const [ showMenu, setShowMenu ] = useState( false )
 	
+	// Toggle task completion state
 	const toggleComplete = async () => {
-		const updatedTask = { ...task, completed: !isCompleted }
-		setIsCompleted( !isCompleted )
+		const newCompletedState = !isCompleted
+		setIsCompleted( newCompletedState )
 
-		await fetch( `/api/tasks/${task._id}`, {
+		const res = await fetch( `/api/tasks/${task._id}`, {
 			method: "PUT",
-			body: JSON.stringify({ completed: !isCompleted }),
+			body: JSON.stringify({ completed: newCompletedState }),
 			headers: { "Content-Type": "application/json" },
 		})
 
-		// Move/reorder completed tasks to bottom
-		setTasks(( prev: TaskType[] ) =>
-			[ ...prev.filter(( t: TaskType ) => t._id !== task._id ), updatedTask ].sort(
-				( a, b ) => Number( a.completed ) - Number( b.completed )
-			)
-		)
+		if ( res.ok ) {
+			setTasks( ( prev ) => {
+				// Update completion state
+				const updatedTasks = prev.map( (t) =>
+					t._id === task._id? { ...t, completed: newCompletedState } : t
+				)
+				// Sort completed tasks last
+				return updatedTasks.sort( ( a, b ) => Number( a.completed ) - Number( b.completed ) )
+			})
+		} else {
+			console.error( "Error: Failed to update task completion state." )
+		}
 	}
 
+	// Update task
 	const updateTask = async ( field: string, value: any ) => {
 		setTasks( prev => prev.map( t => t._id === task._id ? { ...t, [ field ]: value } : t ))
 		
@@ -39,6 +47,7 @@ export default function Task({ task, setTasks }: TaskProps ) {
 		})
 	}
 
+	// Delete task
 	const deleteTask = async () => {
 		await fetch( `/api/tasks/${task._id}`, { method: "DELETE" })
 		setTasks(( prev: TaskType[] ) => prev.filter((t) => t._id !== task._id ))
@@ -52,7 +61,7 @@ export default function Task({ task, setTasks }: TaskProps ) {
 	}
 
 	return (
-		<div className={ `task ${ priorityColors[ task.priority ]} ${ isCompleted ? "completed" : "" }` }>
+		<div className={ `task priority-${task.priority} ${isCompleted ? "completed" : ""}` }>
 			<div className="task-content flex">
 				<input
 					id={ `completed-${task._id}` }
@@ -66,13 +75,14 @@ export default function Task({ task, setTasks }: TaskProps ) {
 					text={ task.name ?? "" }
 					onSave={( newName: string ) => updateTask( "name", newName )}
 				/>
-				<div className="flex ml-auto gap-2">
-					<FaTrash onClick={ deleteTask } className="task-btn"/>
+				<div className="task-btns-box flex ml-auto gap-2">
+					<FaTrash onClick={ deleteTask } className="task-btn delete-btn"/>
 					<FaEllipsisV onClick={() => setShowMenu( !showMenu )} className="task-btn"/>
 				</div>
 			</div>
+
 			{ showMenu && (
-				<div className="flex gap-2 pl-10">
+				<div className="flex gap-2 pl-10 mt-1">
 					<FaTurnDown className="task-btn"/>
 					<FaCopy className="task-btn"/>
 					<FaCalendar className="task-btn"/>

@@ -1,9 +1,9 @@
+// Authentication page: handles sign in/up
 "use client"
 
 import { useState } from "react"
 import { signIn } from "next-auth/react"
 import { useRouter } from "next/navigation"
-import { ifError } from "node:assert"
 
 export default function AuthPage() {
 	const [ tab, setTab ] = useState< "signin" | "signup" >("signin")
@@ -55,7 +55,7 @@ export default function AuthPage() {
 			})
 
 			if ( res.ok ) {
-				router.push( "/dashboard" )
+				router.push( "./dashboard" )
 			} else {
 				const data = await res.json()
 				setError( data.message || "Account already exists. Please sign in or try again." )
@@ -66,103 +66,110 @@ export default function AuthPage() {
 	}
 
 	return (
-		<div className="">
-			<div className="auth-box">
-				
-				{/* Containes both tab buttons */}
-				<div className="tabs-box flex justify-between">
-					{/* Sign in button */}
-					<button
-						onClick={() => {
-							setTab( "signin" )
-							setError("")
-						}}
-						className={`px-4 py-2 tab-btn ${
-							tab === "signin" ? "text-white bg-blue-700" : "text-gray-400"
-						}`}
-					>Sign In</button>
-					{/* Sign up button */}
-					<button
-						onClick={() => {
-							setTab( "signup" )
-							setError("")
-						}}
-						className={`px-4 py-2 tab-btn ${
-							tab === "signup" ? "text-white bg-blue-700" : "text-gray-400"
-						}`}
-					>Sign Up</button>
-				</div>
+		<div className="auth-box">
+			
+			{/* Containes both tab buttons */}
+			<div className="tabs-box flex justify-between">
+				{/* Sign in button */}
+				<button
+					onClick={() => {
+						setTab( "signin" )
+						setError("")
+					}}
+					className={`px-4 py-2 tab-btn ${
+						tab === "signin" ? "text-white bg-blue-700" : "text-gray-400"
+					}`}
+					type="button"
+				>
+					Sign In
+				</button>
 
-				{ tab === "signin" ? (
-					<div className="inputs-box">
-						<input
-							className="auth-input"
-							type="email"
-							name="email"
-							placeholder="Email"
-							value={ formData.email }
-							onChange={ handleInputChange }
-						/>
-						<input
-							className="auth-input"
-							type="password"
-							name="password"
-							placeholder="Password"
-							value={ formData.password }
-							onChange={ handleInputChange }
-						/>
-						<button onClick={ handleSignIn }>SIGN IN</button>
-						<p>Forgot Password?</p>
-					</div>
-				) : (
-					<div className="inputs-box">
-						<input
-							className="auth-input"
-							type="text"
-							name="fName"
-							placeholder="Anar"
-							value={ formData.fName }
-							onChange={ handleInputChange }
-						/>
-						<input
-							className="auth-input"
-							type="text"
-							name="lName"
-							placeholder="Otgonbaatar"
-							value={ formData.lName }
-							onChange={ handleInputChange }
-						/>
-						<input
-							className="auth-input"
-							type="email"
-							name="email"
-							placeholder="Email"
-							value={ formData.email }
-							onChange={ handleInputChange }
-						/>
-						<input
-							className="auth-input"
-							type="password"
-							name="password"
-							placeholder="Password"
-							value={ formData.password }
-							onChange={ handleInputChange }
-						/>
-						<input
-							className="auth-input"
-							type="password"
-							name="confirmPassword"
-							placeholder="Confirm Password"
-							value={ formData.confirmPassword }
-							onChange={ handleInputChange }
-						/>
-						<button onClick={ handleSignUp }>SIGN UP</button>
-					</div>
-				)}
-
-				{ error && <p className="err-message"> { error } </p> }
-
+				{/* Sign up button */}
+				<button
+					onClick={() => {
+						setTab( "signup" )
+						setError("")
+					}}
+					className={`px-4 py-2 tab-btn ${
+						tab === "signup" ? "text-white bg-blue-700" : "text-gray-400"
+					}`}
+					type="button"
+				>
+					Sign Up
+				</button>
 			</div>
+
+			{ tab === "signin" ? (
+				// Sign In
+				<div className="inputs-box">
+					<input
+						className="auth-input"
+						type="email"
+						name="email"
+						placeholder="Email"
+						value={ formData.email }
+						onChange={ handleInputChange }
+					/>
+					<input
+						className="auth-input"
+						type="password"
+						name="password"
+						placeholder="Password"
+						value={ formData.password }
+						onChange={ handleInputChange }
+					/>
+					<button onClick={ handleSignIn }>SIGN IN</button>
+					<p>Forgot Password?</p>
+				</div>
+			) : (
+				// Sign Up
+				<div className="inputs-box">
+					<input
+						className="auth-input"
+						type="text"
+						name="fName"
+						placeholder="First name"
+						value={ formData.fName }
+						onChange={ handleInputChange }
+					/>
+					<input
+						className="auth-input"
+						type="text"
+						name="lName"
+						placeholder="Last name"
+						value={ formData.lName }
+						onChange={ handleInputChange }
+					/>
+					<input
+						className="auth-input"
+						type="email"
+						name="email"
+						placeholder="Email"
+						value={ formData.email }
+						onChange={ handleInputChange }
+					/>
+					<input
+						className="auth-input"
+						type="password"
+						name="password"
+						placeholder="Password"
+						value={ formData.password }
+						onChange={ handleInputChange }
+					/>
+					<input
+						className="auth-input"
+						type="password"
+						name="confirmPassword"
+						placeholder="Confirm Password"
+						value={ formData.confirmPassword }
+						onChange={ handleInputChange }
+					/>
+					<button onClick={ handleSignUp }>SIGN UP</button>
+				</div>
+			)}
+
+			{ error && <p className="err-message"> { error } </p> }
+
 		</div>
 	)
 }

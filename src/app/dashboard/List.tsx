@@ -1,12 +1,12 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import Task from "./Task"
-import ListMenu from "./ListMenu"
 import EditableText from "../components/EditableText"
 import { ListProps, TaskType } from "../types"
-import "./list.css"
 import { FaEllipsisV } from "react-icons/fa"
+import Task from "./Task"
+import ListMenu from "./ListMenu"
+import "./list.css"
 
 export default function List({ list, setLists }: ListProps ) {
 	const [ tasks, setTasks ] = useState <TaskType[]>( list.tasks || [] )
@@ -72,7 +72,7 @@ export default function List({ list, setLists }: ListProps ) {
 			
 			{ showMenu && <ListMenu list={ list } setLists={ setLists }/> }
 
-			<div className="tasks-box flex flex-col gap-2">
+			<div className="tasks-box flex flex-col gap-1">
 				{ tasks.map(( task ) => (
 					<Task key={ task._id } task={ task } setTasks={ setTasks }/>
 				))}

@@ -7,6 +7,18 @@ import User, { IUser } from "@/app/models/User"
 import bcrypt from "bcrypt"
 import type { AuthOptions } from "next-auth"
 import mongoose from "mongoose"
+import { Session } from "next-auth"
+
+declare module "next-auth" {
+	interface Session {
+		user: {
+			id: string
+			name?: string | null
+			email?: string | null
+			profilePic?: string | null
+		}
+	}
+}
 
 export const authOptions: AuthOptions = {
 	adapter: MongoDBAdapter( clientPromise ),
@@ -28,7 +40,7 @@ export const authOptions: AuthOptions = {
 				await clientPromise
 
 				// Find user account in DB
-				const user: IUser | null = await User.findOne({ email })
+				const user: IUser | null = await User.findOne({ email }).select( "+password" )
 
 				if ( !user ) {
 					throw new Error( "Account doesn't exist. ")
@@ -41,8 +53,7 @@ export const authOptions: AuthOptions = {
 				}
 
 				return {
-					// Ensure id is treated as ObjectId
-					id: ( user._id as mongoose.Types.ObjectId ).toString(),
+					id: user._id.toString(),
 					email: user.email,
 					name: user.fName,
 				}
@@ -54,5 +65,28 @@ export const authOptions: AuthOptions = {
 		strategy: "jwt",
 	},
 
+	callbacks: {
+		async session({ session, token }) {
+			if ( !session?.user || !session.user.email ) return session
+
+			const dbUser = await User.findOne({ email: session.user.email }).select( "_id" )
+
+			if ( dbUser ) {
+				return {
+					...session,
+					user: {
+						id: dbUser._id.toString(),
+						name: session.user.name,
+						email: session.user.email,
+						profilePic: session.user.profilePic,
+					}
+				}
+			}
+			return session
+		}
+	},
+
 	secret: process.env.NEXTAUTH_SECRET
 }
+
+export default authOptions
