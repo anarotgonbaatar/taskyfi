@@ -8,6 +8,9 @@ export type TaskType = {
 	priority: "none" | "low" | "medium" | "high"
 	files: File[]
 	subtasks?: TaskType[]
+	dueDate?: string
+	listId: string
+	parentTask?: string
 }
 
 export interface TaskProps {

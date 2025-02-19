@@ -12,6 +12,7 @@ export default function List({ list, setLists }: ListProps ) {
 	const [ tasks, setTasks ] = useState <TaskType[]>( list.tasks || [] )
 	const [ showMenu, setShowMenu ] = useState( false )
 
+	// Get tasks from backend
 	useEffect(() => {
 		const fetchTasks = async () => {
 			const res = await fetch( `/api/lists/${list._id}/tasks`)
@@ -21,6 +22,7 @@ export default function List({ list, setLists }: ListProps ) {
 		fetchTasks()
 	}, [ list._id ])
 
+	// Create new task
 	const addTask = async () => {
 		if ( !list._id ) return
 		const res = await fetch( `/api/lists/${list._id}/tasks`, {

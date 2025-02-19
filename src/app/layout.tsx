@@ -11,9 +11,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 	return (
 		<SessionProvider>
 			<html lang="en">
-			<body className="text-white h-screen">
+			<body className="flex flex-col text-white h-screen max-h-screen">
 				<Header/>
-				<main className="p-2 mt-2">{ children }</main>
+				<main className="p-2 mt-2 h-full max-h-full">{ children }</main>
 			</body>
 			</html>
 		</SessionProvider>

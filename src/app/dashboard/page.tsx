@@ -32,7 +32,7 @@ export default function DashboardPage() {
 	}
 
 	return (
-		<div className="flex gap-4 overflow-x-auto h">
+		<div className="flex gap-2 overflow-x-auto h-full max-h-full">
 			{ loading ? (
 				<p>Loading Tasks...</p>
 			):(
@@ -41,7 +41,7 @@ export default function DashboardPage() {
 				))
 			)}
 
-			<button onClick={ addList } type="button">
+			<button onClick={ addList } type="button" className="h-[3.5rem] min-w-[22rem]">
 				+ List
 			</button>
 		</div>

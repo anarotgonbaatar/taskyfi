@@ -72,8 +72,8 @@ export default function AccountPage() {
 					Back to Dashboard
 				</Link>
 
-				<div className="acc-btn gap-2">
-					<label htmlFor="profile-pic-upload">
+				<div className="user-info flex p-2 gap-2 items-center">
+					<label htmlFor="profile-pic-upload" className="profile-pic flex">
 						{ profilePic ? (
 							<img src={ profilePic } alt="Picture" className="profile-img" />
 						):(
@@ -83,8 +83,8 @@ export default function AccountPage() {
 
 					<div className="flex-col">
 						<EditableText text={ fName } onSave={ (value) => { setFName(value); updateUserInfo( "fName", value ) }}/>
-						<EditableText text={ lName } onSave={ (value) => { setFName(value); updateUserInfo( "lName", value ) }}/>
-						<EditableText text={ email } onSave={ (value) => { setFName(value); updateUserInfo( "email", value ) }}/>
+						<EditableText text={ lName } onSave={ (value) => { setLName(value); updateUserInfo( "lName", value ) }}/>
+						<EditableText text={ email } onSave={ (value) => { setEmail(value); updateUserInfo( "email", value ) }}/>
 					</div>
 				</div>
 

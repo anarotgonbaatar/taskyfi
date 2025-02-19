@@ -1,4 +1,3 @@
-// Tasks CRUD routes
 import { NextResponse } from "next/server"
 import { connectToDB } from "@/app/utils/db"
 import { getServerSession } from "next-auth"
@@ -6,6 +5,7 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route"
 import List from "@/app/models/List"
 import Task from "@/app/models/Task"
 
+// Task Fetching
 export async function GET( req: Request ) {
 	await connectToDB()
 	const session = await getServerSession( authOptions )
@@ -27,6 +27,7 @@ export async function GET( req: Request ) {
 	return NextResponse.json( tasks )
 }
 
+// Task Creation
 export async function POST( req: Request ) {
 	await connectToDB()
 	const session = await getServerSession( authOptions )
@@ -35,7 +36,8 @@ export async function POST( req: Request ) {
 		return NextResponse.json({ error: "Error: Not authenticated." }, { status: 401 })
 	}
 
-	const { listId, name } = await req.json()
+	const body = await req.json()
+	const { listId } = body
 	const list = await List.findOne({ _id: listId, userId: session.user.id })
 
 	if ( !list ) {
@@ -43,8 +45,16 @@ export async function POST( req: Request ) {
 	}
 
 	// Create the new task
-	const newTask = new Task({ name, listId, userId: session.user.id })
-	await newTask.save()
+	const newTask = new Task({
+		name: body.name,
+		details: body.details || "",
+		listId: body.listId,
+		dueDate: body.dueDate ? new Date( body.dueDate ) : null,
+		priority: body.priority || "none",
+		parentTask: body.parentTask || null,
+		completed: body.completed ?? false,
+	})
 
+	await newTask.save()
 	return NextResponse.json( newTask )
 }

@@ -4,6 +4,7 @@
 import { useState } from "react"
 import { signIn } from "next-auth/react"
 import { useRouter } from "next/navigation"
+import "./auth.css"
 
 export default function AuthPage() {
 	const [ tab, setTab ] = useState< "signin" | "signup" >("signin")

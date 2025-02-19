@@ -1,7 +1,9 @@
 .list {
 	border: 1px solid var(--glass);
-	min-width: 20rem;
-	min-height: 40rem;
+	min-width: 22rem;
+	max-width: 20rem;
+	min-height: 10rem;
+	height: min-content;
 
 	display: flex;
 	flex-direction: column;

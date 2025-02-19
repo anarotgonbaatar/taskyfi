@@ -11,6 +11,7 @@
 .acc-btn {
 	display: flex;
 	justify-content: space-between;
+	align-items: center;
 	padding: 0.25rem 0.5rem;
 	border: 1px solid var(--glass);
 	cursor: pointer;
@@ -19,6 +20,16 @@
 	background-color: var(--glass);
 }
 
+.user-info {
+	padding: 0.25rem 0.5rem;
+	border: 1px solid var(--glass);
+	cursor: pointer;
+}
+
+.profile-pic {
+	height: 4rem;
+	width: 4rem;
+}
 .profile-img {
 	height: 4rem;
 	width: 4rem;

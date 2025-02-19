@@ -37,6 +37,7 @@ button {
 	padding: 0.5rem;
 	background-color: var(--glass);
 	border: 1px solid var(--glass);
+	white-space: nowrap;
 }
 button:hover {
 	background-color: var(--primary);
@@ -49,32 +50,23 @@ input {
 	margin: none;
 }
 
-.auth-box {
-	display: flex;
-	flex-direction: column;
-	max-width: 20rem;
-	align-self: center;
-	margin: auto;
-	margin-top: 5rem;
-	gap: 1rem;
+/* width */
+::-webkit-scrollbar {
+	width: 6px;
 }
 
-.inputs-box {
-	display: flex;
-	flex-direction: column;
-	gap: 1rem;
+/* Track */
+::-webkit-scrollbar-track {
+	background: var(--glass);
 }
 
-.auth-input {
-	border: 1px solid var(--glass);
-}
-.auth-input:hover {
-	background-color: var(--glass);
+/* Handle */
+::-webkit-scrollbar-thumb {
+	background: var(--glass);
+	cursor: pointer;
 }
 
-.err-message {
-	background-color: var(--error);
-	color: var(--text);
-	border: 1px solid var(--glass);
-	padding: 0.5rem 0.75rem;
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+	background: var(--primary);
 }
