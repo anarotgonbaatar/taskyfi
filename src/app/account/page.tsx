@@ -29,23 +29,23 @@ export default function AccountPage() {
 	}, [])
 
 	// Handle profile picture upload
-	const updateProfilePic = async ( event: React.ChangeEvent<HTMLInputElement> ) => {
-		const file = event.target.files?.[0]
-		if ( file ) {
-			const formData = new FormData()
-			formData.append( "profilePic", file )
+	// const updateProfilePic = async ( event: React.ChangeEvent<HTMLInputElement> ) => {
+	// 	const file = event.target.files?.[0]
+	// 	if ( file ) {
+	// 		const formData = new FormData()
+	// 		formData.append( "profilePic", file )
 
-			const res = await fetch( "/api/user/profile-pic", {
-				method: "POST",
-				body: formData,
-			})
+	// 		const res = await fetch( "/api/user/profile-pic", {
+	// 			method: "POST",
+	// 			body: formData,
+	// 		})
 
-			if ( res.ok ) {
-				const data = await res.json()
-				setProfilePic( data.profilePic )
-			}
-		}
-	}
+	// 		if ( res.ok ) {
+	// 			const data = await res.json()
+	// 			setProfilePic( data.profilePic )
+	// 		}
+	// 	}
+	// }
 
 	// Handle user info update
 	const updateUserInfo = async ( field: string, value: string ) => {
@@ -72,21 +72,25 @@ export default function AccountPage() {
 					Back to Dashboard
 				</Link>
 
-				<div className="user-info flex p-2 gap-2 items-center">
-					<label htmlFor="profile-pic-upload" className="profile-pic flex">
-						{ profilePic ? (
-							<img src={ profilePic } alt="Picture" className="profile-img" />
-						):(
-							<FaUser className="profile-img self-center"/>
-						)}
-					</label>
+				{ loading ? (
+					<p>Loading user info...</p>
+				):(
+					<div className="user-info flex p-2 gap-2 items-center">
+						<label htmlFor="profile-pic-upload" className="profile-pic flex">
+							{ profilePic ? (
+								<img src={ profilePic } alt="Picture" className="profile-img" />
+							):(
+								<FaUser className="profile-img self-center"/>
+							)}
+						</label>
 
-					<div className="flex-col">
-						<EditableText text={ fName } onSave={ (value) => { setFName(value); updateUserInfo( "fName", value ) }}/>
-						<EditableText text={ lName } onSave={ (value) => { setLName(value); updateUserInfo( "lName", value ) }}/>
-						<EditableText text={ email } onSave={ (value) => { setEmail(value); updateUserInfo( "email", value ) }}/>
+						<div className="flex-col">
+							<EditableText text={ fName } onSave={ (value) => { setFName(value); updateUserInfo( "fName", value ) }}/>
+							<EditableText text={ lName } onSave={ (value) => { setLName(value); updateUserInfo( "lName", value ) }}/>
+							<EditableText text={ email } onSave={ (value) => { setEmail(value); updateUserInfo( "email", value ) }}/>
+						</div>
 					</div>
-				</div>
+				)}
 
 				<h1>Danger Zone</h1>
 				<div className="acc-btn sign-out-btn bg-yellow-800" onClick={ handleSignOut }>

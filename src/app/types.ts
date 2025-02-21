@@ -1,5 +1,3 @@
-import { FcIntegratedWebcam } from "react-icons/fc"
-
 export type TaskType = {
 	_id: string
 	name: string

@@ -1,35 +1,31 @@
-// MongoDB Connection
 import mongoose from "mongoose"
 import { MongoClient } from "mongodb"
 
-const MONGO_URI = process.env.MONGO_URI || ""
+const MONGO_URI = process.env.MONGO_URI ?? ""
 
 if ( !MONGO_URI ) {
-	throw new Error( "MONGO_URI not defined in env." )
+	throw new Error("MONGO_URI is not defined in the environment variables.")
 }
 
+// Ensure MongoDB connection is cached across hot reloads in development
 declare global {
-	var _mongoClientPromise: Promise<MongoClient>
+	var _mongoClientPromise: Promise<MongoClient> | undefined
 }
 
-let client
+let client: MongoClient
 let clientPromise: Promise<MongoClient>
 
-if ( mongoose.connection.readyState < 1 ) {
-	mongoose.connect( MONGO_URI )
-}
-
-if ( global._mongoClientPromise ) {
-	clientPromise = global._mongoClientPromise
-} else {
+if ( !global._mongoClientPromise ) {
 	client = new MongoClient( MONGO_URI )
 	global._mongoClientPromise = client.connect()
-	clientPromise = global._mongoClientPromise
 }
 
+clientPromise = global._mongoClientPromise
+
 export async function connectToDB() {
-	if ( mongoose.connection.readyState < 1 ) {
+	if ( mongoose.connection.readyState === 0 ) {
 		await mongoose.connect( MONGO_URI )
 	}
 }
+
 export default clientPromise

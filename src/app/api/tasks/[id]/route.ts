@@ -3,7 +3,6 @@
 import { NextResponse } from "next/server"
 import { connectToDB } from "@/app/utils/db"
 import Task from "@/app/models/Task"
-import { BiBody } from "react-icons/bi"
 
 export async function PUT( req: Request, context: { params: { id: string }}) {
 	await connectToDB()
@@ -27,7 +26,7 @@ export async function PUT( req: Request, context: { params: { id: string }}) {
 
 		return NextResponse.json( updatedTask )
 	} catch ( error ) {
-		return NextResponse.json({ message: "Error: Failed to update task." }, { status: 500 })
+		return NextResponse.json({ message: `Error: Failed to update task: ${error}` }, { status: 500 })
 	}
 }
 

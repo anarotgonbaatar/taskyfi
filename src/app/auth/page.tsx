@@ -62,7 +62,7 @@ export default function AuthPage() {
 				setError( data.message || "Account already exists. Please sign in or try again." )
 			}
 		} catch ( error ) {
-			setError( "Something went wrong." )
+			setError( `Something went wrong: ${error}` )
 		}
 	}
 

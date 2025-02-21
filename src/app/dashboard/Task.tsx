@@ -7,8 +7,8 @@ import { TaskType } from "../types"
 import "react-datepicker/dist/react-datepicker.css"
 import "./task.css"
 // React icons
-import { FaTrash, FaEllipsisV, FaCalendar, FaCopy, FaAngleDown } from "react-icons/fa"
-import { FaArrowRightArrowLeft, FaTurnDown } from "react-icons/fa6"
+import { FaTrash, FaCalendar, FaCopy, FaAngleDown } from "react-icons/fa"
+import { FaTurnDown } from "react-icons/fa6"
 
 export default function Task({ task, setTasks }: TaskProps ) {
 	const [ isCompleted, setIsCompleted ] = useState( task.completed ?? false )
